@@ -22,7 +22,13 @@ spec:
                 name: {{ .Values.dataloader.fullname }}
             - secretRef:
                 name: dataloader-s3
-            resources: {}
+            resources:
+                requests:
+                  memory: "128Mi"
+                  cpu: "250m"
+                limits:
+                  memory: "128Mi"
+                  cpu: "250m"
             volumeMounts:
             - name: voltmp
               mountPath: /data/
