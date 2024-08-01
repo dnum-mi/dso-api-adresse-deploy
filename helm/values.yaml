@@ -64,8 +64,8 @@ addokRedis:
 dataloader:
   fullname: dataloader
   image:
-    registry: docker.io
-    repository: etalab/addok-redis
+    registry: ""
+    repository: ""
     pullPolicy: IfNotPresent
     tag: 1.0
   addokFranceBundleUrl: "https://adresse.data.gouv.fr/data/ban/adresses/latest/addok/addok-france-bundle.zip"
