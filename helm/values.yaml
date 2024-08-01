@@ -75,7 +75,8 @@ dataloader:
   awsOpts: "--no-verify-ssl"
   schedule: "0 * * * *"
 
-imagePullSecrets: []
+imagePullSecrets:
+- name: "registry-pull-secret"
 nameOverride: ""
 fullnameOverride: ""
 
