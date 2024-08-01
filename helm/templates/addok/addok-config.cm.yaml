@@ -4,5 +4,5 @@ metadata:
   name: addok-config
 data:
   REDIS_HOST: redis
-  REDIS_PORT: 6379
+  REDIS_PORT: "6379"
   SQLITE_DB_PATH: /data/addok.db
