@@ -72,7 +72,7 @@ dataloader:
   addokFranceBundleUrl: "https://adresse.data.gouv.fr/data/ban/adresses/latest/addok/addok-france-bundle.zip"
   s3EndpointUrl: "https://api-minio-siaf.dev.numerique-interieur.com/"
   bucket: "s3://addok/"
-  AWS_OPTS: "--no-verify-ssl"
+  awsOpts: "--no-verify-ssl"
   schedule: "0 * * * *"
 
 imagePullSecrets: []
