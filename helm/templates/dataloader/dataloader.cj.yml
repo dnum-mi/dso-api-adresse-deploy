@@ -30,6 +30,6 @@ spec:
           restartPolicy: OnFailure
           volumes:
           - name: voltmp
-            persistentVolumeClaim:
-              claimName: {{ .Values.dataloader.fullname }}
+            emptyDir:
+              sizeLimit: {{ .Values.dataloader.storage }}
   schedule: {{ .Values.dataloader.schedule }}
