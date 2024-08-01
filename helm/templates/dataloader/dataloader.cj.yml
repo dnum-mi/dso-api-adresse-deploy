@@ -24,9 +24,9 @@ spec:
             - secretRef:
                 name: dataloader-s3
             resources: {}
-            volumeMount: 
-              - name: voltmp
-                mountPath: /data/
+            volumeMounts:
+            - name: voltmp
+              mountPath: /data/
           restartPolicy: OnFailure
           volumes:
           - name: voltmp
