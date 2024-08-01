@@ -12,7 +12,7 @@ default:
 variables:
   # TAG: "${CI_COMMIT_REF_SLUG}"
   TAG: "1.0"
-  DOCKERFILE: app/Dockerfile
+  DOCKERFILE: Dockerfile
   REGISTRY_URL: "${IMAGE_REPOSITORY}"
 
 
