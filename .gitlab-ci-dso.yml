@@ -9,13 +9,6 @@ include:
 default:
   image: alpine:latest
 
-variables:
-  # TAG: "${CI_COMMIT_REF_SLUG}"
-  TAG: "1.0"
-  DOCKERFILE: Dockerfile
-  REGISTRY_URL: "${IMAGE_REPOSITORY}"
-
-
 stages:
   - read-secret
   - docker-build
@@ -32,8 +25,11 @@ docker-build:
   only:
     - web
   variables:
-    WORKING_DIR: "."
     IMAGE_NAME: dataloader
+    DOCKERFILE: Dockerfile
+    # TAG: "${CI_COMMIT_REF_SLUG}"
+    TAG: "1.0"
+    REGISTRY_URL: "${IMAGE_REPOSITORY}"
   stage: docker-build
   extends:
     - .kaniko:simple-build-push
