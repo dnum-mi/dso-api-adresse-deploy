@@ -68,6 +68,7 @@ dataloader:
     repository: ""
     pullPolicy: IfNotPresent
     tag: 1.0
+  storage: 5Gi
   addokFranceBundleUrl: "https://adresse.data.gouv.fr/data/ban/adresses/latest/addok/addok-france-bundle.zip"
   s3EndpointUrl: "https://api-minio-siaf.dev.numerique-interieur.com/"
   bucket: "s3://addok/"
