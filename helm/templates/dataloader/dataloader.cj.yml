@@ -7,7 +7,6 @@ spec:
     metadata:
       name: {{ .Values.dataloader.fullname }}
     spec:
-      suspend: true
       template:
         metadata:
         spec:
