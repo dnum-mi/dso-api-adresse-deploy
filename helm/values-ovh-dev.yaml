@@ -1,5 +1,6 @@
 dataloader:
   image:
     registry: harbor.apps.dso.numerique-interieur.com
-    repository: etalab/addok-redis
+    repository: mi-apiadresse/dataloader
     pullPolicy: IfNotPresent
+    tag: 1.0

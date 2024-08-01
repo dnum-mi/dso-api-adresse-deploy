@@ -6,7 +6,7 @@ addok:
     repository: etalab/addok
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "latest"
+    tag: "a0902c3d282a"
 
   service:
     type: ClusterIP
@@ -38,7 +38,7 @@ addokRedis:
     repository: etalab/addok-redis
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "latest"
+    tag: "46349135c13c"
   
   service:
     type: ClusterIP
