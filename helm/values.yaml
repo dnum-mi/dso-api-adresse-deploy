@@ -72,6 +72,9 @@ addokRedis:
     requests:
       cpu: 100m
       memory: 128Mi
+  
+  ingress:
+    enabled: false
 
 dataloader:
   fullname: dataloader
