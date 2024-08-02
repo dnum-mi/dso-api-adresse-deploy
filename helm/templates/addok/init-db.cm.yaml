@@ -7,4 +7,4 @@ data:
   S3_ENDPOINT_URL: "{{ .Values.dataloader.s3EndpointUrl }}"
   S3_BUCKET: "addok"
   S3_FILE: "addok.db"
-  SSL_VERIFY_PEER: false
+  SSL_VERIFY_PEER: "false"
