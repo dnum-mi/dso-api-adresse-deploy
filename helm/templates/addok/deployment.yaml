@@ -30,12 +30,23 @@ spec:
       serviceAccountName: {{ .Values.addok.fullname }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: init-{{ .Values.addok.fullname }}
+        image: "{{ .Values.dataloader.image.registry }}/{{ .Values.dataloader.image.repository }}:{{ .Values.dataloader.image.tag }}"
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.addok.fullname }}-init
+        command: ['./datadl.sh']
+  
       containers:
         - name: {{ .Values.addok.fullname }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.addok.image.registry }}/{{ .Values.addok.image.repository }}:{{ .Values.addok.image.tag }}"
           imagePullPolicy: {{ .Values.addok.image.pullPolicy }}
+          envFrom:
+          - configMapRef:
+              name: {{ .Values.addok.fullname }}-env
           ports:
             - name: http
               containerPort: {{ .Values.addok.service.port }}
@@ -46,14 +57,18 @@ spec:
             {{- toYaml .Values.addok.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.addok.resources | nindent 12 }}
-          {{- with .Values.addok.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.addok.volumes }}
+          - name: data
+            mountPath: "/data"
+          - name: conf
+            mountPath: "/etc/addok"
       volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Values.addok.fullname }}-data
+      - name: conf
+        configMap:
+          name: {{ .Values.addok.fullname }}-conf
       {{- with .Values.addok.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

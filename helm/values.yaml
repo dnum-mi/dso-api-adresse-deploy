@@ -1,6 +1,8 @@
 addok:
   fullname: addok
   replicaCount: 1
+  data:
+    storage: 3Gi
   image:
     registry: docker.io
     repository: etalab/addok
@@ -44,6 +46,8 @@ addok:
 addokRedis:
   fullname: addokredis
   replicaCount: 1
+  data:
+    storage: 3Gi
   image:
     registry: docker.io
     repository: etalab/addok-redis

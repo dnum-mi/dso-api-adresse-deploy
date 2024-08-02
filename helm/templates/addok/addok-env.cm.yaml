@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.addok.fullname }}-env
+data:
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  SQLITE_DB_PATH: /data/addok.db
+  WORKERS: 1
+  WORKER_TIMEOUT: 30
+  LOG_QUERIES: 1
+  LOG_NOT_FOUND: 1
+  SLOW_QUERIES: 200
