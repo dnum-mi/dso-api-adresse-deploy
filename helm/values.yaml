@@ -67,11 +67,11 @@ addokRedis:
 
   resources:
     limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 2000m
+      memory: 3Gi
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 2000m
+      memory: 3Gi
   
   ingress:
     enabled: false
