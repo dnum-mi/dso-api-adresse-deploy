@@ -10,6 +10,7 @@ spec:
   selector:
     matchLabels:
       {{- include "..selectorLabels" . | nindent 6 }}
+      component: {{ .Values.addok.fullname }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -21,6 +22,7 @@ spec:
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        component: {{ .Values.addok.fullname }}
     spec:
       imagePullSecrets:
         - name: registry-pull-secret
