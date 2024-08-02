@@ -1,6 +1,16 @@
 environment: ovh
 phase: dev
 
+addok:
+  ingress:
+    enabled: true
+    hosts:
+      - host: ban.apps.app1.numerique-interieur.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+
 dataloader:
   image:
     registry: harbor.apps.dso.numerique-interieur.com
