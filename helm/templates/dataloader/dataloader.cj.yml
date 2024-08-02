@@ -30,7 +30,7 @@ spec:
             volumeMounts:
             - name: voltmp
               mountPath: /data/
-          restartPolicy: OnFailure
+          restartPolicy: Never
           volumes:
           - name: voltmp
             emptyDir:

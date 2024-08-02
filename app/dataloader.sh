@@ -1,4 +1,6 @@
-#/bin/sh
+#!/bin/sh
+## Download data from opendata, unzip and upload to S3
+
 ADDOK_DIRECTORY=addok
 
 cd /data/

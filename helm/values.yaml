@@ -7,6 +7,17 @@ addok:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
+  
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Automatically mount a ServiceAccount's API credentials?
+    automount: false
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
 
   service:
     type: ClusterIP
@@ -40,6 +51,17 @@ addokRedis:
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
   
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Automatically mount a ServiceAccount's API credentials?
+    automount: false
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+  
   service:
     type: ClusterIP
     port: 6379
@@ -70,7 +92,7 @@ dataloader:
     tag: 1.0
   storage: 5Gi
   addokFranceBundleUrl: "https://adresse.data.gouv.fr/data/ban/adresses/latest/addok/addok-france-bundle.zip"
-  s3EndpointUrl: "https://api-minio-siaf.dev.numerique-interieur.com/"
+  s3EndpointUrl: ""
   bucket: "s3://addok/"
   awsOpts: "--no-verify-ssl"
   schedule: "0 * * * *"
@@ -79,16 +101,7 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Automatically mount a ServiceAccount's API credentials?
-  automount: false
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
+
 
 podAnnotations: {}
 podLabels: {}
