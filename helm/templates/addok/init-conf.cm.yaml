@@ -5,6 +5,6 @@ metadata:
 data:
   VOLDATA: "/etc/addok"
   AWS_OPTS: "--no-verify-ssl"
-  S3_ENDPOINT_URL: "https://api.minio-siaf.apps.app1.numerique-interieur.com/"
+  S3_ENDPOINT_URL: "https://api-minio-siaf.apps.app1.numerique-interieur.com/"
   S3_BUCKET: "s3://addok/"
   S3_FILE: "addok.conf"
