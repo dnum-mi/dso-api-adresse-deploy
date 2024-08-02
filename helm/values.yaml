@@ -3,6 +3,8 @@ addok:
   replicaCount: 1
   data:
     storage: 3Gi
+  conf:
+    storage: 3Mi
   image:
     registry: docker.io
     repository: etalab/addok

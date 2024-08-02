@@ -23,10 +23,8 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         - name: registry-pull-secret
-      {{- end }}
       serviceAccountName: {{ .Values.addok.fullname }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -94,8 +92,8 @@ spec:
         persistentVolumeClaim:
           claimName: {{ .Values.addok.fullname }}-data
       - name: conf
-        configMap:
-          name: {{ .Values.addok.fullname }}-conf
+        persistentVolumeClaim:
+          claimName: {{ .Values.addok.fullname }}-conf
       {{- with .Values.addok.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
