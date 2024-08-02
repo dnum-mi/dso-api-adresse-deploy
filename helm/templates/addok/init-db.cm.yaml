@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.addok.fullname }}-init
+  name: {{ .Values.addok.fullname }}-initdb
 data:
   VOLDATA: "/data"
   AWS_OPTS: "--no-verify-ssl"

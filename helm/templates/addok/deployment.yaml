@@ -25,18 +25,18 @@ spec:
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: registry-pull-secret
       {{- end }}
       serviceAccountName: {{ .Values.addok.fullname }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-      - name: init-{{ .Values.addok.fullname }}
+      - name: {{ .Values.addok.fullname }}-initdb
         image: "{{ .Values.dataloader.image.registry }}/{{ .Values.dataloader.image.repository }}:{{ .Values.dataloader.image.tag }}"
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
-            name: {{ .Values.addok.fullname }}-init
+            name: {{ .Values.addok.fullname }}-initdb
         command: ['./datadl.sh']
         resources:
           requests:
@@ -45,7 +45,26 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "250m"
-  
+        volumeMounts:
+          - name: data
+            mountPath: "/data"
+      - name: {{ .Values.addok.fullname }}-initconf
+        image: "{{ .Values.dataloader.image.registry }}/{{ .Values.dataloader.image.repository }}:{{ .Values.dataloader.image.tag }}"
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.addok.fullname }}-initconf
+        command: ['./datadl.sh']
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        volumeMounts:
+          - name: conf
+            mountPath: "/etc/addok"
       containers:
         - name: {{ .Values.addok.fullname }}
           securityContext:

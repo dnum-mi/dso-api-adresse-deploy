@@ -23,11 +23,29 @@ spec:
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: registry-pull-secret
       {{- end }}
       serviceAccountName: {{ .Values.addok.fullname }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: init-{{ .Values.addokRedis.fullname }}
+        image: "{{ .Values.dataloader.image.registry }}/{{ .Values.dataloader.image.repository }}:{{ .Values.dataloader.image.tag }}"
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.addokRedis.fullname }}-init
+        command: ['./datadl.sh']
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        volumeMounts:
+          - name: data
+            mountPath: "/data"
       containers:
         - name: {{ .Values.addokRedis.fullname }}
           securityContext:
@@ -44,14 +62,13 @@ spec:
             {{- toYaml .Values.addokRedis.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.addokRedis.resources | nindent 12 }}
-          {{- with .Values.addokRedis.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.addokRedis.volumes }}
+          - name: data
+            mountPath: "/data"
       volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Values.addokRedis.fullname }}-data
       {{- with .Values.addokRedis.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
