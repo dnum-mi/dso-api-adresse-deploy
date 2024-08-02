@@ -2,9 +2,9 @@ addok:
   fullname: addok
   replicaCount: 1
   data:
-    storage: 3Gi
+    storage: 10Gi
   conf:
-    storage: 3Mi
+    storage: 30Mi
   image:
     registry: docker.io
     repository: etalab/addok
@@ -43,7 +43,7 @@ addokRedis:
   fullname: addokredis
   replicaCount: 1
   data:
-    storage: 3Gi
+    storage: 10Gi
   image:
     registry: docker.io
     repository: etalab/addok-redis
@@ -89,7 +89,7 @@ dataloader:
   s3EndpointUrl: ""
   bucket: "s3://addok/"
   awsOpts: "--no-verify-ssl"
-  schedule: "0 * * * *"
+  schedule: "0 0 * * *"
 
 imagePullSecrets: []
 nameOverride: ""
