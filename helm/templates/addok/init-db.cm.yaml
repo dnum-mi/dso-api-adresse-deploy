@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.addok.fullname }}-initdb
 data:
   VOLDATA: "/data"
-  AWS_OPTS: "--no-verify-ssl"
-  S3_ENDPOINT_URL: "https://api.minio-siaf.apps.app1.numerique-interieur.com/"
-  S3_BUCKET: "s3://addok/"
+  AWS_OPTS: {{ .Values.dataloader.awsOpts | default "" }}
+  S3_ENDPOINT_URL: "{{ .Values.dataloader.s3EndpointUrl }}"
+  S3_BUCKET: "{{ .Values.dataloader.bucket }}"
   S3_FILE: "addok.db"

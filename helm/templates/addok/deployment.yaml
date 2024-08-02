@@ -39,11 +39,12 @@ spec:
             name: dataloader-s3
         command: ['./datadl.sh']
         resources:
+          # Must be large to fit file into memory before copying it to volume
           requests:
-            memory: "128Mi"
+            memory: "2Gi"
             cpu: "250m"
           limits:
-            memory: "128Mi"
+            memory: "2Gi"
             cpu: "250m"
         volumeMounts:
           - name: data
