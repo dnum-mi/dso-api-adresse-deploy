@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.addok.fullname }}-env
 data:
-  REDIS_HOST: redis
+  REDIS_HOST: {{ .Values.addokRedis.fullname }}
   REDIS_PORT: "6379"
   SQLITE_DB_PATH: /data/addok.db
   WORKERS: "1"
