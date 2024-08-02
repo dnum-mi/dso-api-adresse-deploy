@@ -33,6 +33,7 @@ spec:
       initContainers:
       - name: init-{{ .Values.addok.fullname }}
         image: "{{ .Values.dataloader.image.registry }}/{{ .Values.dataloader.image.repository }}:{{ .Values.dataloader.image.tag }}"
+        imagePullPolicy: Always
         envFrom:
         - configMapRef:
             name: {{ .Values.addok.fullname }}-init
