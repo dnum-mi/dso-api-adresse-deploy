@@ -9,13 +9,15 @@ output_file = ENV['OUTPUT_FILE']
 # Configuration du client S3
 Aws.config.update(
   endpoint: endpoint,
-  region: region,
+  region: 'fr-fr',
   ssl_verify_peer: ENV['SSL_VERIFY_PEER'],
   force_path_style: true
 )
 
 # Création du client S3
 s3_client = Aws::S3::Client.new
+
+puts "Début du téléchargement"
 
 begin
   File.open(output_file, 'wb') do |file|
