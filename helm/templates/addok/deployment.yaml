@@ -35,6 +35,8 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ .Values.addok.fullname }}-initdb
+        - secretRef:
+            name: dataloader-s3
         command: ['./datadl.sh']
         resources:
           requests:
@@ -52,6 +54,8 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ .Values.addok.fullname }}-initconf
+        - secretRef:
+            name: dataloader-s3
         command: ['./datadl.sh']
         resources:
           requests:
