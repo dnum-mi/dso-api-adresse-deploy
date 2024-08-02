@@ -3,8 +3,9 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.addokRedis.fullname }}-init
 data:
-  VOLDATA: "/data"
-  AWS_OPTS: "--no-verify-ssl"
-  S3_ENDPOINT_URL: "https://api-minio-siaf.apps.app1.numerique-interieur.com/"
-  S3_BUCKET: "s3://addok/"
+  OUTPUT_FILE: "/data/dump.rdb"
+  S3_ENDPOINT_URL: "{{ .Values.dataloader.s3EndpointUrl }}"
+  S3_BUCKET: "addok"
   S3_FILE: "dump.rdb"
+  SSL_VERIFY_PEER: false
+

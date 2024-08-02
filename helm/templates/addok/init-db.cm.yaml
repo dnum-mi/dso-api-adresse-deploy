@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.addok.fullname }}-initdb
 data:
-  VOLDATA: "/data"
-  AWS_OPTS: {{ .Values.dataloader.awsOpts | default "" }}
+  OUTPUT_FILE: "/data/addok.db"
   S3_ENDPOINT_URL: "{{ .Values.dataloader.s3EndpointUrl }}"
-  S3_BUCKET: "{{ .Values.dataloader.bucket }}"
+  S3_BUCKET: "addok"
   S3_FILE: "addok.db"
+  SSL_VERIFY_PEER: false

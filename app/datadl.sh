@@ -5,9 +5,9 @@ echo "Download data:"
 echo "  from: ${S3_ENDPOINT_URL} ${S3_BUCKET}/${S3_FILE}"
 echo "  to: ${VOLDATA}/${S3_FILE}"
 
-mkdir -p ${VOLDATA}
+# mkdir -p ${VOLDATA}
 
-echo 'STEP 1/1: downlaod data'
+echo 'STEP 1/1: download data'
 
 aws ${AWS_OPTS} --endpoint-url ${S3_ENDPOINT_URL} s3 cp ${S3_BUCKET}/${S3_FILE} ${VOLDATA}/${S3_FILE}
 

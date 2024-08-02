@@ -37,7 +37,9 @@ spec:
             name: {{ .Values.addok.fullname }}-initdb
         - secretRef:
             name: dataloader-s3
-        command: ['./datadl.sh']
+        command:
+          - ruby
+          - datadl-chunk.rb
         resources:
           # Must be large to fit file into memory before copying it to volume
           requests:
@@ -57,7 +59,9 @@ spec:
             name: {{ .Values.addok.fullname }}-initconf
         - secretRef:
             name: dataloader-s3
-        command: ['./datadl.sh']
+        command:
+          - ruby
+          - datadl-chunk.rb
         resources:
           requests:
             memory: "128Mi"
