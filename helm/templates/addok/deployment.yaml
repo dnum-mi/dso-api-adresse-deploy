@@ -37,6 +37,13 @@ spec:
         - configMapRef:
             name: {{ .Values.addok.fullname }}-init
         command: ['./datadl.sh']
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
   
       containers:
         - name: {{ .Values.addok.fullname }}
