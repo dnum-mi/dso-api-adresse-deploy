@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.addokRedis.fullname }}
   labels:
     {{- include "..labels" . | nindent 4 }}
+    component: {{ .Values.addok.fullname }}
 spec:
   replicas: {{ .Values.addokRedis.replicaCount }}
   selector:
