@@ -3,11 +3,11 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.addok.fullname }}-env
 data:
-  REDIS_HOST: {{ .Values.addokRedis.fullname }}
-  REDIS_PORT: "6379"
-  SQLITE_DB_PATH: /data/addok.db
-  WORKERS: "1"
-  WORKER_TIMEOUT: "30"
-  LOG_QUERIES: "1"
-  LOG_NOT_FOUND: "1"
-  SLOW_QUERIES: "200"
+  REDIS_HOST: "{{ .Values.addokRedis.fullname }}"
+  REDIS_PORT: "{{ .Values.addokRedis.service.port }}"
+  SQLITE_DB_PATH: "/data/addok.db"
+  WORKERS: "{{ .Values.addok.envConfig.workers }}"
+  WORKER_TIMEOUT: "{{ .Values.addok.envConfig.workerTimeout }}"
+  LOG_QUERIES: "{{ .Values.addok.envConfig.logQueries }}"
+  LOG_NOT_FOUND: "{{ .Values.addok.envConfig.logNotFound }}"
+  SLOW_QUERIES: "{{ .Values.addok.envConfig.slowQueries }}"
