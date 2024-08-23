@@ -95,7 +95,7 @@ dataloader:
   s3EndpointUrl: ""
   bucket: "s3://addok/"
   awsOpts: "--no-verify-ssl"
-  schedule: "0 0 * * *"
+  schedule: "0 0 * * 6"
 
 imagePullSecrets: []
 nameOverride: ""
