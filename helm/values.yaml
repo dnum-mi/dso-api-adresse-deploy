@@ -37,7 +37,7 @@ addok:
       memory: 1024Mi
   
   envConfig:
-    workers: "200"
+    workers: "5"
     workerTimeout: "30"
     logQueries: "1"
     logNotFound: "1"
