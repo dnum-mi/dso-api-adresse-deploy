@@ -1,0 +1,30 @@
+{{- if .Values.addokRedis.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.addokRedis.fullname }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+  {{- with .Values.addokRedis.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+    {{- range .Values.addokRedis.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            {{- if .pathType }}
+            pathType: {{ .pathType }}
+            {{- end }}
+            backend:
+              service:
+                name: {{ $.Values.addokRedis.fullname }}
+                port:
+                  number: {{ $.Values.addokRedis.service.port }}
+          {{- end }}
+    {{- end }}
+{{- end }}

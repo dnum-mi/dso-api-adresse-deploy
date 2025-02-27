@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.dataloader.fullname }}
+spec:
+  jobTemplate:
+    metadata:
+      name: {{ .Values.dataloader.fullname }}
+    spec:
+      template:
+        metadata:
+        spec:
+          imagePullSecrets:
+            - name: registry-pull-secret
+          containers:
+          - image: "{{ .Values.dataloader.image.registry }}/{{ .Values.dataloader.image.repository }}:{{ .Values.dataloader.image.tag }}"
+            imagePullPolicy: {{ .Values.dataloader.image.pullPolicy }}
+            name: {{ .Values.dataloader.fullname }}
+            envFrom:
+            - configMapRef:
+                name: {{ .Values.dataloader.fullname }}
+            - secretRef:
+                name: dataloader-s3
+            resources:
+                requests:
+                  memory: "128Mi"
+                  cpu: "250m"
+                limits:
+                  memory: "128Mi"
+                  cpu: "250m"
+            volumeMounts:
+            - name: voltmp
+              mountPath: /data/
+          restartPolicy: Never
+          volumes:
+          - name: voltmp
+            emptyDir:
+              sizeLimit: {{ .Values.dataloader.storage }}
+  schedule: {{ .Values.dataloader.schedule }}

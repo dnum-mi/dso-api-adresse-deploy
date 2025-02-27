@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.addokRedis.fullname }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+    component: {{ .Values.addokRedis.fullname }}
+spec:
+  replicas: {{ .Values.addokRedis.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "..selectorLabels" . | nindent 6 }}
+      component: {{ .Values.addokRedis.fullname }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "..labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        component: {{ .Values.addokRedis.fullname }}
+    spec:
+      imagePullSecrets:
+        - name: registry-pull-secret
+      serviceAccountName: {{ .Values.addok.fullname }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: init-{{ .Values.addokRedis.fullname }}
+        image: "{{ .Values.dataloader.image.registry }}/{{ .Values.dataloader.image.repository }}:{{ .Values.dataloader.image.tag }}"
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.addokRedis.fullname }}-init
+        - secretRef:
+            name: dataloader-s3
+        command:
+          - ruby
+          - datadl-chunk.rb
+        resources:
+          # Must be large to fit file into memory before copying it to volume
+          requests:
+            memory: "1Gi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        volumeMounts:
+          - name: data
+            mountPath: "/data"
+      containers:
+        - name: {{ .Values.addokRedis.fullname }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.addokRedis.image.registry }}/{{ .Values.addokRedis.image.repository }}:{{ .Values.addokRedis.image.tag }}"
+          imagePullPolicy: {{ .Values.addokRedis.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.addokRedis.service.port }}
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.addokRedis.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.addokRedis.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.addokRedis.resources | nindent 12 }}
+          volumeMounts:
+          - name: data
+            mountPath: "/data"
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Values.addokRedis.fullname }}-data
+      {{- with .Values.addokRedis.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.addokRedis.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.addokRedis.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

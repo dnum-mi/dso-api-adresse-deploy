@@ -1,0 +1,120 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.addok.fullname }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+    component: {{ .Values.addok.fullname }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "..selectorLabels" . | nindent 6 }}
+      component: {{ .Values.addok.fullname }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "..labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        component: {{ .Values.addok.fullname }}
+    spec:
+      imagePullSecrets:
+        - name: registry-pull-secret
+      serviceAccountName: {{ .Values.addok.fullname }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: {{ .Values.addok.fullname }}-initdb
+        image: "{{ .Values.dataloader.image.registry }}/{{ .Values.dataloader.image.repository }}:{{ .Values.dataloader.image.tag }}"
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.addok.fullname }}-initdb
+        - secretRef:
+            name: dataloader-s3
+        command:
+          - ruby
+          - datadl-chunk.rb
+        resources:
+          # Must be large to fit file into memory before copying it to volume
+          requests:
+            memory: "2Gi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "250m"
+        volumeMounts:
+          - name: data
+            mountPath: "/data"
+      - name: {{ .Values.addok.fullname }}-initconf
+        image: "{{ .Values.dataloader.image.registry }}/{{ .Values.dataloader.image.repository }}:{{ .Values.dataloader.image.tag }}"
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.addok.fullname }}-initconf
+        - secretRef:
+            name: dataloader-s3
+        command:
+          - ruby
+          - datadl-chunk.rb
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        volumeMounts:
+          - name: conf
+            mountPath: "/etc/addok"
+      containers:
+        - name: {{ .Values.addok.fullname }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.addok.image.registry }}/{{ .Values.addok.image.repository }}:{{ .Values.addok.image.tag }}"
+          imagePullPolicy: {{ .Values.addok.image.pullPolicy }}
+          envFrom:
+          - configMapRef:
+              name: {{ .Values.addok.fullname }}-env
+          ports:
+            - name: http
+              containerPort: {{ .Values.addok.service.port }}
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.addok.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.addok.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.addok.resources | nindent 12 }}
+          volumeMounts:
+          - name: data
+            mountPath: "/data"
+          - name: conf
+            mountPath: "/etc/addok"
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Values.addok.fullname }}-data
+      - name: conf
+        persistentVolumeClaim:
+          claimName: {{ .Values.addok.fullname }}-conf
+      {{- with .Values.addok.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.addok.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.addok.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

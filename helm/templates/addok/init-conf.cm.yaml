@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.addok.fullname }}-initconf
+data:
+  OUTPUT_FILE: "/etc/addok/addok.conf"
+  S3_ENDPOINT_URL: "{{ .Values.dataloader.s3EndpointUrl }}"
+  S3_BUCKET: "addok"
+  S3_FILE: "addok.conf"
+  SSL_VERIFY_PEER: "false"

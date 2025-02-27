@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.dataloader.fullname }}
+data:
+  ADDOK_FRANCE_BUNDLE_URL: {{ .Values.dataloader.addokFranceBundleUrl }}
+  S3_ENDPOINT_URL: {{ .Values.dataloader.s3EndpointUrl }}
+  S3_BUCKET: {{ .Values.dataloader.bucket }}
+  AWS_OPTS: {{ .Values.dataloader.awsOpts | default "" }}
