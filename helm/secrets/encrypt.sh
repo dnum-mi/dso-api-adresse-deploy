@@ -19,6 +19,7 @@
 #
 
 AGE_KEY_OVH_DEV=age1g867s7tcftkgkdraz3ezs8xk5c39x6l4thhekhp9s63qxz0m7cgs5kan9a
+AGE_KEY_SCALEWAY_DEV=age1hjx3vv9yewerftvn3zwzv24elf8mr86c6klvszd9xe2vuzyth4hq9wlfvk
 AGE_KEY_MI_INTEG_1=age1lxduvqtglrdj38m27gsa4akdu82keqwgh7r57ep3dcwf7uaref4qtafwy5
 AGE_KEY_MI_PROD=age190waxlxyv9l0s5ec8600u7ujknrugffz6fjxde8tndy9gw68rckstws8dp
 
@@ -27,6 +28,7 @@ encrypt_path="$1/$2"
 # Dictionnaire faisant la relation entre le chemin en entrée (ovh dev, mi staging) et la clé publique à utiliser
 declare -A keys=[]
 keys["ovh:dev"]=${AGE_KEY_OVH_DEV}
+keys["scaleway:dev"]=${AGE_KEY_SCALEWAY_DEV}
 keys["mi:staging"]=${AGE_KEY_MI_INTEG_1}
 keys["mi:prod"]=${AGE_KEY_MI_PROD}
 
