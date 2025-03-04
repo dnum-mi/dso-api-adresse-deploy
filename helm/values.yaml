@@ -90,7 +90,7 @@ dataloader:
     repository: ""
     pullPolicy: Always
     tag: 1.0
-  storage: 5Gi
+  storage: 10Gi
   addokFranceBundleUrl: "https://adresse.data.gouv.fr/data/ban/adresses/latest/addok/addok-france-bundle.zip"
   s3EndpointUrl: ""
   bucket: "s3://addok/"
