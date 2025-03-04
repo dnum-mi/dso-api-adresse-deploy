@@ -1,0 +1,19 @@
+environment: scaleway
+phase: dev
+
+addok:
+  ingress:
+    enabled: true
+    hosts:
+      - host: ban.sdid-app.cpin.numerique-interieur.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+
+dataloader:
+  image:
+    registry: harbor.apps.dso.numerique-interieur.com
+    repository: mi-apiadresse/dataloader
+    tag: "1.0"
+  s3EndpointUrl: "https://api-minio-siaf.apps.app1.numerique-interieur.com/"
